@@ -25,13 +25,14 @@ const badgerNames = [
 
 const badgerPace = 2
 
-const createBadger = name => {
+const createBadger = (name, id) => {
     // x: 0-380, y: 0-300
     const x = Math.ceil(Math.random() * 380)
     const y = Math.ceil(Math.random() * 300)
     return {
         ...createPlayer(x, y, 10),
-        name: name
+        name: name,
+        id: id
     }
 }
 
@@ -39,7 +40,7 @@ export const createBadgers = numBadgers => {
     const badgers = []
     for(let i=0; i<numBadgers; i++) {
         const index = Math.floor(Math.random() * badgerNames.length)
-        const badger = createBadger(badgerNames[index])
+        const badger = createBadger(badgerNames[index], i)
         badgers.push(badger)
     }
     return badgers

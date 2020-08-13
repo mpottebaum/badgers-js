@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { createUser } from './models/user'
+import { createUser, shoot } from './models/user'
 import { createBadgers, badgersMover, findKillerBadger } from './models/badger'
-import { createGrenade, isExploded } from './models/grenade'
+import { createGrenade, isExploded, createGun } from './models/weapons'
 import Court from './components/Court'
 import Controls from './components/Controls'
 import './App.css';
@@ -9,10 +9,15 @@ import './App.css';
 function App() {
 
   const [ numBadgers, setNumBadgers ] = useState(2)
+
   const [ user, setUser ] = useState(createUser(numBadgers))
   const [ badgers, setBadgers ] = useState(createBadgers(numBadgers))
+
   const [ grenade, setGrenade ] = useState(null)
   const [ selectGrenade, setSelectGrenade ] = useState(0)
+
+  const [ gun, setGun ] = useState(null)
+  const [ shooting, setShooting ] = useState(0)
 
   const movePlayers = newUser => {
     const newBadgers = badgersMover(newUser, badgers)
@@ -65,16 +70,35 @@ function App() {
     }, 4250)
   }
 
+  const shootGun = () => {
+    setShooting(1)
+    setUser({...user, bullets: user.bullets - 1})
+    const deadBadger = shoot(user, badgers)
+
+    setTimeout(() => setGun(createGun(user)), 500)
+    setTimeout(() => {
+      setGun(null)
+      if(deadBadger) {
+        setBadgers(badgers.filter(badger => badger.id !== deadBadger.id))
+      }
+    }, 1000)
+    setTimeout(() => setShooting(2), 1500)
+  }
+
   return (
     <div>
-      <Court user={user} badgers={badgers} grenade={grenade} />
+      <Court user={user} badgers={badgers} grenade={grenade} gun={gun}/>
       <Controls
         user={user}
         grenade={grenade}
         selectGrenade={selectGrenade}
+        gun={gun}
+        shooting={shooting}
         movePlayers={movePlayers}
         tossGrenade={tossGrenade}
         setSelectGrenade={setSelectGrenade}
+        shootGun={shootGun}
+        setShooting={setShooting}
         nextLevel={nextLevel}
         newGame={newGame}
       />

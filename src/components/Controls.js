@@ -1,7 +1,21 @@
 import React, { useState } from 'react'
 import { createMover } from '../models/player'
 
-const Controls = ({ user, grenade, selectGrenade, movePlayers, tossGrenade, setSelectGrenade, nextLevel, newGame }) => {
+const Controls = (
+    {
+        user,
+        grenade,
+        selectGrenade,
+        shooting,
+        movePlayers,
+        tossGrenade,
+        setSelectGrenade,
+        shootGun,
+        setShooting,
+        nextLevel,
+        newGame
+    }
+) => {
 
     const mover = createMover(1)
     const [ grenadeAngle, setGrenadeAngle ] = useState(0)
@@ -39,6 +53,12 @@ const Controls = ({ user, grenade, selectGrenade, movePlayers, tossGrenade, setS
             return <div>
                 <button onClick={() => setSelectGrenade(0)}>Continue</button>
             </div>
+        } else if(shooting === 1) {
+            return <div></div>
+        } else if(shooting === 2) {
+            return <div>
+                <button onClick={() => setShooting(0)}>Continue</button>
+            </div>
         } else {
             return <div>
                 <button onClick={() => movePlayers({...user, ...mover.moveUp(user)})} >Up</button>
@@ -46,6 +66,7 @@ const Controls = ({ user, grenade, selectGrenade, movePlayers, tossGrenade, setS
                 <button onClick={() => movePlayers({...user, ...mover.moveLeft(user)})}>Left</button>
                 <button onClick={() => movePlayers({...user, ...mover.moveRight(user)})}>Right</button>
                 <button onClick={() => setSelectGrenade(1)} disabled={user.grenades <= 0}>Throw Grenade</button>
+                <button onClick={() => shootGun()} disabled={user.bullets <= 0}>Shoot Gun</button>
             </div>
         }
     }

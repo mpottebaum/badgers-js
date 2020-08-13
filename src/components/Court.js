@@ -1,7 +1,7 @@
 import React from "react";
 import { courtDimensions } from '../constants/index'
 
-const Court = ({ user, badgers, grenade }) => {
+const Court = ({ user, badgers, grenade, gun }) => {
     const renderBadgers = () => {
         return badgers.map(badger => {
             if(badger.alive) {
@@ -26,6 +26,19 @@ const Court = ({ user, badgers, grenade }) => {
             cy={`${grenade.y}`}
             r={`${grenade.radius}`}
             fill="#35b55f"
+            opacity="0.998"
+        ></circle>
+        } else return null
+    }
+
+    const renderGun = () => {
+        if(gun) {
+            return <circle
+            id='gun'
+            cx={`${gun.x}`}
+            cy={`${gun.y}`}
+            r={`${gun.radius}`}
+            fill="#000"
             opacity="0.998"
         ></circle>
         } else return null
@@ -199,6 +212,7 @@ const Court = ({ user, badgers, grenade }) => {
         ></circle>
         {renderBadgers()}
         {renderGrenade()}
+        {renderGun()}
       </g>
     </svg>
   );

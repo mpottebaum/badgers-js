@@ -106,3 +106,8 @@ export const isExploded = (player, explosion) => {
     const distance = distanceBetween(explosion, player)
     return distance < (player.radius + explosion.radius)
 }
+
+export const createGun = user => {
+    const radius = 6
+    return createPlayer(user.x, user.y - (user.radius + radius), radius)
+}
