@@ -6,8 +6,8 @@ const Court = ({ user, badgers, grenade, gun }) => {
         return badgers.map(badger => {
             if(badger.alive) {
                 return <circle
-                    key={badger.name}
-                    id={badger.name}
+                    key={badger.id}
+                    id={`${badger.name}-${badger.id}`}
                     cx={`${badger.x}`}
                     cy={`${badger.y}`}
                     r={`${badger.radius}`}
@@ -25,7 +25,7 @@ const Court = ({ user, badgers, grenade, gun }) => {
             cx={`${grenade.x}`}
             cy={`${grenade.y}`}
             r={`${grenade.radius}`}
-            fill="#35b55f"
+            fill={grenade.color}
             opacity="0.998"
         ></circle>
         } else return null

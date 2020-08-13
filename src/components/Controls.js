@@ -3,26 +3,33 @@ import { createMover } from '../models/player'
 
 const Controls = (
     {
+        start,
         user,
         grenade,
         selectGrenade,
         shooting,
+        setStart,
         movePlayers,
         tossGrenade,
         setSelectGrenade,
         shootGun,
-        setShooting,
+        endGrenade,
+        endGun,
         nextLevel,
         newGame
     }
 ) => {
 
-    const mover = createMover(1)
+    const mover = createMover(3)
     const [ grenadeAngle, setGrenadeAngle ] = useState(0)
     const [ grenadePower, setGrenadePower ] = useState(1)
 
     const renderControls = () => {
-        if(!user.alive) {
+        if(start) {
+            return <div>
+                <button onClick={() => setStart(false)}>Start Game</button>
+            </div>
+        } else if(!user.alive) {
             return <div>
                 <button onClick={() => newGame()}>New Game</button>
             </div>
@@ -48,16 +55,17 @@ const Controls = (
                 <p onClick={() => setGrenadePower(2)}>2</p>
                 <p onClick={() => setGrenadePower(3)}>3</p>
                 <button onClick={() => tossGrenade(grenadeAngle, grenadePower)}>Throw</button>
+                <button onClick={() => setSelectGrenade(0)}>Cancel</button>
             </div>
         } else if(selectGrenade === 2) {
             return <div>
-                <button onClick={() => setSelectGrenade(0)}>Continue</button>
+                <button onClick={() => endGrenade()}>Continue</button>
             </div>
         } else if(shooting === 1) {
             return <div></div>
         } else if(shooting === 2) {
             return <div>
-                <button onClick={() => setShooting(0)}>Continue</button>
+                <button onClick={() => endGun()}>Continue</button>
             </div>
         } else {
             return <div>
@@ -72,11 +80,6 @@ const Controls = (
     }
 
     return <div>
-        <div>
-            <p>Stamina: {user.stamina}</p>
-            <p>Grenades: {user.grenades}</p>
-            <p>Bullets: {user.bullets}</p>
-        </div>
         {renderControls()}
     </div> 
         

@@ -23,7 +23,7 @@ const badgerNames = [
     "Boson"
 ]
 
-const badgerPace = 2
+const badgerPace = 10
 
 const createBadger = (name, id) => {
     // x: 0-380, y: 0-300
@@ -59,6 +59,10 @@ const moveBadger = (user, badger) => {
     const mover = createMover(badgerPace)
     const distanceY = badger.y - user.y
     const distanceX = badger.x - user.x
+    // console.log('y dist', distanceY)
+    if(distanceY < -250) {
+        return {...badger, ...mover.moveDown(badger)}
+    }
 
     if(distanceY === 0) {
         if(distanceX > 0) {

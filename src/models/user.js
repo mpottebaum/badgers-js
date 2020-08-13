@@ -3,9 +3,10 @@ import { createPlayer, distanceBetween } from './player'
 export const createUser = numBadgers => {
     return {
         ...createPlayer(190, 650, 10),
-        bullets: Math.ceil(Math.log(numBadgers)) + 2,
-        grenades: Math.ceil(Math.sqrt(numBadgers)),
+        grenades: Math.ceil(Math.log(numBadgers)) + 2,
+        bullets: Math.ceil(Math.sqrt(numBadgers)),
         stamina: 3,
+        win: false
     }
 }
 

@@ -3,10 +3,15 @@ import { createPlayer, createMover, distanceBetween } from './player'
 
 export const createGrenade = (user, angle, power) => {
     const radius = 6
+    const grenadeColor = '#35b55f'
+    const blastColor = '#ff7b47'
+    const explosionColor = '#a3a3a3'
+
     const grenade = {
         ...createPlayer(user.x, user.y - (user.radius + radius), radius),
         angle: angle,
-        power: power
+        power: power,
+        color: grenadeColor,
     }
     const secondGrenade = grenadeMover(grenade)
     const thirdGrenade = grenadeMover(secondGrenade)
@@ -16,14 +21,14 @@ export const createGrenade = (user, angle, power) => {
         second: secondGrenade,
         third: thirdGrenade,
         fourth: fourthGrenade,
-        expFirst: {...fourthGrenade, radius: grenade.radius * 2},
-        expSecond: {...fourthGrenade, radius: grenade.radius * 4},
-        expThird: {...fourthGrenade, radius: grenade.radius * 10}
+        expFirst: {...fourthGrenade, color: blastColor, radius: grenade.radius * 2},
+        expSecond: {...fourthGrenade, color: explosionColor, radius: grenade.radius * 4},
+        expThird: {...fourthGrenade, color: explosionColor, radius: grenade.radius * 10}
     }
 }
 
 const grenadeMover = grenade => {
-    const mover = createMover(grenade.power * 4)
+    const mover = createMover(grenade.power * 6)
     let newCoordinates
     switch(grenade.angle) {
         case 0:
