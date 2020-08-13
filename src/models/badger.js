@@ -23,6 +23,8 @@ const badgerNames = [
     "Boson"
 ]
 
+const badgerPace = 2
+
 const createBadger = name => {
     // x: 0-380, y: 0-300
     const x = Math.ceil(Math.random() * 380)
@@ -53,7 +55,7 @@ export const badgersMover = (user, badgers) => {
 }
 
 const moveBadger = (user, badger) => {
-    const mover = createMover(1)
+    const mover = createMover(badgerPace)
     const distanceY = badger.y - user.y
     const distanceX = badger.x - user.x
 
@@ -80,4 +82,14 @@ const moveBadger = (user, badger) => {
     } else {
         return {...badger, ...mover.moveDown(badger)}
     }
+}
+
+const distanceBetween = (user, badger) => {
+    const distanceY = badger.y - user.y
+    const distanceX = badger.x - user.x
+    return Math.sqrt(distanceY**2 + distanceX**2)
+}
+
+export const findKillerBadger = (user, badgers) => {
+    return badgers.find(badger => distanceBetween(user, badger) < 30)
 }

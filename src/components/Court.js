@@ -1,10 +1,11 @@
 import React from "react";
 import { courtDimensions } from '../constants/index'
 
-const Court = ({ user, badgers }) => {
+const Court = ({ user, badgers, grenade }) => {
     const renderBadgers = () => {
         return badgers.map(badger => {
             return <circle
+                key={badger.name}
                 id={badger.name}
                 cx={`${badger.x}`}
                 cy={`${badger.y}`}
@@ -13,6 +14,19 @@ const Court = ({ user, badgers }) => {
                 opacity="0.998"
             ></circle>
         })
+    }
+
+    const renderGrenade = () => {
+        if(grenade) {
+            return <circle
+            id='grenade'
+            cx={`${grenade.x}`}
+            cy={`${grenade.y}`}
+            r={`${grenade.radius}`}
+            fill="#35b55f"
+            opacity="0.998"
+        ></circle>
+        } else return null
     }
 
   return (
@@ -173,14 +187,16 @@ const Court = ({ user, badgers }) => {
       </g>
       <g id="layer1" fillRule="evenodd" paintOrder="fill markers stroke">
         <circle
-          id="path1070"
-          cx={`${user.x}`}
-          cy={`${user.y}`}
-          r={`${user.radius}`}
-          fill="#f9f9f9"
-          opacity="0.998"
+            style={user.alive ? {} : {display: 'none'}}
+            id="path1070"
+            cx={`${user.x}`}
+            cy={`${user.y}`}
+            r={`${user.radius}`}
+            fill="#f9f9f9"
+            opacity="0.998"
         ></circle>
         {renderBadgers()}
+        {renderGrenade()}
       </g>
     </svg>
   );
