@@ -1,16 +1,28 @@
 import { courtDimensions } from '../constants/index'
-import { createPlayer, createMover } from './player'
+import { createPlayer, createMover, distanceBetween } from './player'
 
 export const createGrenade = (user, angle, power) => {
     const radius = 6
-    return {
+    const grenade = {
         ...createPlayer(user.x, user.y - (user.radius + radius), radius),
         angle: angle,
         power: power
     }
+    const secondGrenade = grenadeMover(grenade)
+    const thirdGrenade = grenadeMover(secondGrenade)
+    const fourthGrenade = grenadeMover(thirdGrenade)
+    return {
+        first: grenade,
+        second: secondGrenade,
+        third: thirdGrenade,
+        fourth: fourthGrenade,
+        expFirst: {...fourthGrenade, radius: grenade.radius * 2},
+        expSecond: {...fourthGrenade, radius: grenade.radius * 4},
+        expThird: {...fourthGrenade, radius: grenade.radius * 10}
+    }
 }
 
-export const grenadeMover = grenade => {
+const grenadeMover = grenade => {
     const mover = createMover(grenade.power * 4)
     let newCoordinates
     switch(grenade.angle) {
@@ -87,4 +99,10 @@ export const grenadeMover = grenade => {
                 return {...grenade, ...newCoordinates}
             }
     }
+}
+
+
+export const isExploded = (player, explosion) => {
+    const distance = distanceBetween(explosion, player)
+    return distance < (player.radius + explosion.radius)
 }

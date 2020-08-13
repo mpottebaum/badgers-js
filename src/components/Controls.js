@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import { createMover } from '../models/player'
 
-const Controls = ({ user, grenade, movePlayers, tossGrenade, nextLevel, newGame }) => {
+const Controls = ({ user, grenade, selectGrenade, movePlayers, tossGrenade, setSelectGrenade, nextLevel, newGame }) => {
 
     const mover = createMover(1)
-    const [ selectGrenade, setSelectGrenade ] = useState(false)
     const [ grenadeAngle, setGrenadeAngle ] = useState(0)
     const [ grenadePower, setGrenadePower ] = useState(1)
 
@@ -19,7 +18,7 @@ const Controls = ({ user, grenade, movePlayers, tossGrenade, nextLevel, newGame 
             </div>
         } else if(grenade) {
             return <div></div>
-        } else if(selectGrenade) {
+        } else if(selectGrenade === 1) {
             return <div>
                 <p>Angle: {grenadeAngle}</p>
                 <p onClick={() => setGrenadeAngle(0)}>0</p>
@@ -36,18 +35,30 @@ const Controls = ({ user, grenade, movePlayers, tossGrenade, nextLevel, newGame 
                 <p onClick={() => setGrenadePower(3)}>3</p>
                 <button onClick={() => tossGrenade(grenadeAngle, grenadePower)}>Throw</button>
             </div>
+        } else if(selectGrenade === 2) {
+            return <div>
+                <button onClick={() => setSelectGrenade(0)}>Continue</button>
+            </div>
         } else {
             return <div>
                 <button onClick={() => movePlayers({...user, ...mover.moveUp(user)})} >Up</button>
                 <button onClick={() => movePlayers({...user, ...mover.moveDown(user)})}>Down</button>
                 <button onClick={() => movePlayers({...user, ...mover.moveLeft(user)})}>Left</button>
                 <button onClick={() => movePlayers({...user, ...mover.moveRight(user)})}>Right</button>
-                <button onClick={() => setSelectGrenade(true)}>Throw Grenade</button>
+                <button onClick={() => setSelectGrenade(1)} disabled={user.grenades <= 0}>Throw Grenade</button>
             </div>
         }
     }
 
-    return renderControls()
+    return <div>
+        <div>
+            <p>Stamina: {user.stamina}</p>
+            <p>Grenades: {user.grenades}</p>
+            <p>Bullets: {user.bullets}</p>
+        </div>
+        {renderControls()}
+    </div> 
+        
 }
 
 export default Controls

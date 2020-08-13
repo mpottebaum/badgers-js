@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { createUser } from './models/user'
 import { createBadgers, badgersMover, findKillerBadger } from './models/badger'
-import { createGrenade, grenadeMover } from './models/grenade'
+import { createGrenade, isExploded } from './models/grenade'
 import Court from './components/Court'
 import Controls from './components/Controls'
 import './App.css';
@@ -12,6 +12,7 @@ function App() {
   const [ user, setUser ] = useState(createUser(numBadgers))
   const [ badgers, setBadgers ] = useState(createBadgers(numBadgers))
   const [ grenade, setGrenade ] = useState(null)
+  const [ selectGrenade, setSelectGrenade ] = useState(0)
 
   const movePlayers = newUser => {
     const newBadgers = badgersMover(newUser, badgers)
@@ -44,14 +45,24 @@ function App() {
   }
 
   const tossGrenade = (angle, power) => {
-    const firstGrenade = createGrenade(user, angle, power)
-    setGrenade(firstGrenade)
-    const secondGrenade = grenadeMover(firstGrenade)
-    setTimeout(() => setGrenade(secondGrenade), 1000)
-    const thirdGrenade = grenadeMover(secondGrenade)
-    setTimeout(() => setGrenade(thirdGrenade), 1750)
-    const fourthGrenade = grenadeMover(thirdGrenade)
-    setTimeout(() => setGrenade(fourthGrenade), 2250)
+    const { first, second, third, fourth, expFirst, expSecond, expThird } = createGrenade(user, angle, power)
+    setGrenade(first)
+    setTimeout(() => setGrenade(second), 1000)
+    setTimeout(() => setGrenade(third), 1750)
+    setTimeout(() => setGrenade(fourth), 2250)
+    setTimeout(() => setGrenade(expFirst), 2750)
+    setTimeout(() => setGrenade(expSecond), 3250)
+    setTimeout(() => setGrenade(expThird), 3750)
+    const deadBadgers = badgers.filter(badger => isExploded(badger, expThird))
+    const userAlive = !isExploded(user, expThird)
+    setTimeout(() => {
+      if(deadBadgers) {
+        setBadgers(badgers.filter(badger => !isExploded(badger, expThird)))
+      }
+      setUser({...user, grenades: user.grenades - 1, alive: userAlive})
+      setSelectGrenade(2)
+      setGrenade(null)
+    }, 4250)
   }
 
   return (
@@ -60,8 +71,10 @@ function App() {
       <Controls
         user={user}
         grenade={grenade}
+        selectGrenade={selectGrenade}
         movePlayers={movePlayers}
         tossGrenade={tossGrenade}
+        setSelectGrenade={setSelectGrenade}
         nextLevel={nextLevel}
         newGame={newGame}
       />

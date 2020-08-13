@@ -1,4 +1,4 @@
-import { createPlayer, createMover } from './player'
+import { createPlayer, createMover, distanceBetween } from './player'
 
 const badgerNames = [
     "Balthazar",
@@ -82,12 +82,6 @@ const moveBadger = (user, badger) => {
     } else {
         return {...badger, ...mover.moveDown(badger)}
     }
-}
-
-const distanceBetween = (user, badger) => {
-    const distanceY = badger.y - user.y
-    const distanceX = badger.x - user.x
-    return Math.sqrt(distanceY**2 + distanceX**2)
 }
 
 export const findKillerBadger = (user, badgers) => {

@@ -4,15 +4,17 @@ import { courtDimensions } from '../constants/index'
 const Court = ({ user, badgers, grenade }) => {
     const renderBadgers = () => {
         return badgers.map(badger => {
-            return <circle
-                key={badger.name}
-                id={badger.name}
-                cx={`${badger.x}`}
-                cy={`${badger.y}`}
-                r={`${badger.radius}`}
-                fill="#000"
-                opacity="0.998"
-            ></circle>
+            if(badger.alive) {
+                return <circle
+                    key={badger.name}
+                    id={badger.name}
+                    cx={`${badger.x}`}
+                    cy={`${badger.y}`}
+                    r={`${badger.radius}`}
+                    fill="#000"
+                    opacity="0.998"
+                ></circle>
+            } else return null
         })
     }
 

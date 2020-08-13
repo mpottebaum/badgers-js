@@ -81,3 +81,9 @@ export const createMover = spaces => {
         }
     }
 }
+
+export const distanceBetween = (playerA, playerB) => {
+    const distanceY = playerB.y - playerA.y
+    const distanceX = playerB.x - playerA.x
+    return Math.sqrt(distanceY**2 + distanceX**2)
+}
