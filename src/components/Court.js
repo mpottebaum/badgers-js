@@ -1,8 +1,23 @@
 import React from "react";
+import { courtDimensions } from '../constants/index'
 
-const Court = ({ user }) => {
+const Court = ({ user, badgers }) => {
+    const renderBadgers = () => {
+        return badgers.map(badger => {
+            return <circle
+                id={badger.name}
+                cx={`${badger.x}`}
+                cy={`${badger.y}`}
+                r={`${badger.radius}`}
+                fill="#000"
+                opacity="0.998"
+            ></circle>
+        })
+    }
+
   return (
     <svg
+        style={{height: '80vh'}}
       xmlns="http://www.w3.org/2000/svg"
       id="svg1057"
       fill="none"
@@ -10,7 +25,12 @@ const Court = ({ user }) => {
       strokeLinecap="square"
       strokeMiterlimit="10"
       version="1.1"
-      viewBox="0 0 380 660"
+      viewBox={`0 0 ${courtDimensions.x} ${courtDimensions.y}`}
+      x="0"
+      y="0"
+      width="100%"
+      height="100%"
+      preserveAspectRatio="xMinYMin meet"
     >
       <g
         id="court"
@@ -160,14 +180,7 @@ const Court = ({ user }) => {
           fill="#f9f9f9"
           opacity="0.998"
         ></circle>
-        <circle
-          id="path3532"
-          cx="82.075"
-          cy="312.453"
-          r="10"
-          fill="#000"
-          opacity="0.998"
-        ></circle>
+        {renderBadgers()}
       </g>
     </svg>
   );

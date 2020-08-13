@@ -1,11 +1,15 @@
 import React from 'react'
+import { createMover } from '../models/player'
 
 const Controls = ({ user, setUser }) => {
+
+    const mover = createMover(1)
+
     return <div>
-        <button onClick={() => setUser({...user, y: user.y - user.radius})} >Up</button>
-        <button onClick={() => setUser({...user, y: user.y + user.radius})}>Down</button>
-        <button onClick={() => setUser({...user, x: user.x - user.radius})}>Left</button>
-        <button onClick={() => setUser({...user, x: user.x + user.radius})}>Right</button>
+        <button onClick={() => setUser({...user, ...mover.moveUp(user)})} >Up</button>
+        <button onClick={() => setUser({...user, ...mover.moveDown(user)})}>Down</button>
+        <button onClick={() => setUser({...user, ...mover.moveLeft(user)})}>Left</button>
+        <button onClick={() => setUser({...user, ...mover.moveRight(user)})}>Right</button>
     </div>
 }
 
