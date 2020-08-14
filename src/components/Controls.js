@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { createMover } from '../models/player'
+import DPad from './DPad'
+import GrenadeAngle from './GrenadeAngle'
 
 const Controls = (
     {
@@ -42,14 +44,7 @@ const Controls = (
         } else if(selectGrenade === 1) {
             return <div>
                 <p>Angle: {grenadeAngle}</p>
-                <p onClick={() => setGrenadeAngle(0)}>0</p>
-                <p onClick={() => setGrenadeAngle(45)}>45</p>
-                <p onClick={() => setGrenadeAngle(90)}>90</p>
-                <p onClick={() => setGrenadeAngle(135)}>135</p>
-                <p onClick={() => setGrenadeAngle(180)}>180</p>
-                <p onClick={() => setGrenadeAngle(225)}>225</p>
-                <p onClick={() => setGrenadeAngle(270)}>270</p>
-                <p onClick={() => setGrenadeAngle(315)}>315</p>
+                <GrenadeAngle grenadeAngle={grenadeAngle} setGrenadeAngle={setGrenadeAngle} />
                 <p>Power: {grenadePower}</p>
                 <p onClick={() => setGrenadePower(1)}>1</p>
                 <p onClick={() => setGrenadePower(2)}>2</p>
@@ -69,10 +64,7 @@ const Controls = (
             </div>
         } else {
             return <div>
-                <button onClick={() => movePlayers({...user, ...mover.moveUp(user)})} >Up</button>
-                <button onClick={() => movePlayers({...user, ...mover.moveDown(user)})}>Down</button>
-                <button onClick={() => movePlayers({...user, ...mover.moveLeft(user)})}>Left</button>
-                <button onClick={() => movePlayers({...user, ...mover.moveRight(user)})}>Right</button>
+                <DPad user={user} movePlayers={movePlayers} />
                 <button onClick={() => setSelectGrenade(1)} disabled={user.grenades <= 0}>Throw Grenade</button>
                 <button onClick={() => shootGun()} disabled={user.bullets <= 0}>Shoot Gun</button>
             </div>
