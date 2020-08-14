@@ -103,9 +103,9 @@ function App() {
     setTimeout(() => setGun(createGun(user)), 500)
     setTimeout(() => {
       setGun(null)
-      if(deadBadger) {
+      if(deadBadger.length > 0) {
         setPoints(points + 300)
-        setDeadBadgers([deadBadger])
+        setDeadBadgers(deadBadger)
         setBadgers(badgers.filter(badger => badger.id !== deadBadger.id))
       }
     }, 1000)

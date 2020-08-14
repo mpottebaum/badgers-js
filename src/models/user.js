@@ -14,8 +14,8 @@ export const shoot = (user, badgers) => {
     const target = findBestTarget(user, badgers)
     const oddsOfHit = distanceBetween(user, target)
     const random = Math.floor(Math.random() * oddsOfHit)
-    if(random === 0) return target
-    else return null
+    if(random === 0) return [ target ]
+    else return []
 }
 
 const findBestTarget = (user, badgers) => {

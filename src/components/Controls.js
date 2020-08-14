@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { createMover } from '../models/player'
 import DPad from './DPad'
 import GrenadeAngle from './GrenadeAngle'
 
@@ -22,7 +21,6 @@ const Controls = (
     }
 ) => {
 
-    const mover = createMover(3)
     const [ grenadeAngle, setGrenadeAngle ] = useState(0)
     const [ grenadePower, setGrenadePower ] = useState(1)
 
